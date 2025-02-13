@@ -1,23 +1,20 @@
-﻿
-
-
-
-using Application.Domain.Base;
+﻿using GestionHoteles.Domain.Result;
 using System.Linq.Expressions;
 
-namespace Application.Domain.Repository
+namespace GestionHoteles.Domain.Repository
 {
-    //Interfaz que deben heredar todos los repositorios.
+    /// <summary>
+    /// Interfaz que deben heredar todos los repositorios.
+    /// </summary>
+    /// <typeparam name="TEntity">entidad que debe ser un clase</typeparam>
+    /// <typeparam name="Ttype">tipo de dato de esta clase</typeparam>
     public interface IBaseRepository<TEntity,Ttype> where TEntity : class
     {
         Task<TEntity> GetEntityAsync(Ttype id);
-        Task UpdateEntity(TEntity entity);
-        Task DeleteEntityAsync(TEntity entity);
-        Task SaveEntityAsync(TEntity entity);
+        Task<OperationResult> UpdateEntity(TEntity entity);
+        Task<OperationResult> SaveEntityAsync(TEntity entity);
         Task<List<TEntity>> GetAllAsync();
-
-        Task<OperationResult> GetAllAsync(Expression<Func<TEntity, bool>> filter);
-        Task<bool> ExistisAsync(Expression<Func<TEntity, bool>> filter);
-
+        Task<bool> ExitsAsync(Expression<Func<TEntity, bool>> filter);
+        Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter);
     }
 }

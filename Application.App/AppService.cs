@@ -1,4 +1,4 @@
-﻿namespace Application.App
+﻿namespace GestionHoteles.App
 {
     public class AppService
     {

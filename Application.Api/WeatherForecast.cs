@@ -1,4 +1,4 @@
-namespace Application.Api
+namespace GestionHoteles.Api
 {
     public class WeatherForecast
     {

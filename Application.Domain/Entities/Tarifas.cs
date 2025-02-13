@@ -1,11 +1,11 @@
 ﻿
-
+using GestionHoteles.Domain.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Application.Domain.Entities
+namespace GestionHoteles.Domain.Entities
 {
-    public sealed class Tarifas : Base.BaseEntity<int>
+    public sealed class Tarifas : BaseEntity<int>
     {
         [Column("IdTarifa")]
         [Key]

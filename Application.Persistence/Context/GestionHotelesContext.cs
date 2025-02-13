@@ -1,13 +1,12 @@
-﻿using Application.Domain.Entities;
+﻿using GestionHoteles.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Graph.Models;
 
 
-namespace Application.Persistence.Context
+namespace GestionHoteles.Persistence.Context
 {
-    public class ApplicationContext : DbContext
+    public class GestionHotelesContext : DbContext
     {
-        public ApplicationContext(DbContextOptions<ApplicationContext> option) : base(option)
+        public GestionHotelesContext(DbContextOptions<GestionHotelesContext> option) : base(option)
         {
              
         }

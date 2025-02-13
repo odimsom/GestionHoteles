@@ -1,4 +1,4 @@
-namespace Application.Persistence.Test
+namespace GestionHoteles.Persistence.Test
 {
     public class UnitTest1
     {

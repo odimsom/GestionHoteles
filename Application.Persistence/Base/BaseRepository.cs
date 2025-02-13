@@ -1,57 +1,75 @@
-﻿using Application.Domain.Repository;
-using Application.Persistence.Context;
+﻿using GestionHoteles.Domain.Result;
+using GestionHoteles.Domain.Repository;
+using GestionHoteles.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Application.Persistence.Base
+namespace GestionHoteles.Persistence.Base
 {
     public abstract class BaseRepository<TEntity, TType> : IBaseRepository<TEntity, TType> where TEntity : class
     {
-        private readonly ApplicationContext _context;
-        private TEntity _entity { get; set; }
+        private readonly GestionHotelesContext _context;
+        private DbSet<TEntity> Entity { get; set; }
+        private OperationResult OperationResult { get; set; }
 
-        protected BaseRepository(ApplicationContext context, TEntity entity)
+        protected BaseRepository(GestionHotelesContext context)
         {
             _context = context;
-            _entity = entity;
-            _ = _context.Set<TEntity>();
+            Entity = _context.Set<TEntity>();
+            OperationResult = new OperationResult();
         }
 
-        public Task DeleteEntityAsync(TEntity entity)
+        public virtual async Task<bool> ExitsAsync(Expression<Func<TEntity, bool>> filter)
         {
-            
-            throw new NotImplementedException();
+            return await Entity.AnyAsync(filter);
         }
 
-        public virtual async Task<bool> ExistisAsync(Expression<Func<TEntity, bool>> filter)
+        public virtual async Task<List<TEntity>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await Entity.ToListAsync();
         }
 
-        public Task<List<TEntity>> GetAllAsync()
+        public virtual async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter)
         {
-            throw new NotImplementedException();
+            return await Entity.Where(filter).ToListAsync();
         }
 
-        public Task<Domain.Base.OperationResult> GetAllAsync(Expression<Func<TEntity, bool>> filter)
+        public virtual async Task<TEntity> GetEntityAsync(TType id)
         {
-            throw new NotImplementedException();
+                return await Entity.FindAsync(id); 
         }
 
-        public Task<TEntity> GetEntityAsync(TType id)
+        public virtual async Task<OperationResult> SaveEntityAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Entity.Add(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception) 
+            {
+                OperationResult.Success = false;
+                OperationResult.Message = "Ocurio un error guardadndo los datos";
+            }
+
+            return OperationResult;
         }
 
-        public Task SaveEntityAsync(TEntity entity)
+        public virtual async Task<OperationResult> UpdateEntity(TEntity entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Entity.Add(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                OperationResult.Success = false;
+                OperationResult.Message = "Ocurio un error guardadndo los datos";
+            }
+            return OperationResult;
         }
 
-        public Task UpdateEntity(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 
 }

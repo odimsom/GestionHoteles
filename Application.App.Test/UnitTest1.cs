@@ -1,4 +1,4 @@
-namespace Application.App.Test
+namespace GestionHoteles.App.Test
 {
     public class UnitTest1
     {

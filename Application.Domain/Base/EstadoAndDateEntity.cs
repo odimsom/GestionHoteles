@@ -1,4 +1,4 @@
-﻿namespace Application.Domain.Base
+﻿namespace GestionHoteles.Domain.Base
 {
     public abstract class EstadoAndDateEntity
     {

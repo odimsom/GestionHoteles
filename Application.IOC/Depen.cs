@@ -1,4 +1,4 @@
-﻿namespace Application.IOC
+﻿namespace GestionHoteles.IOC
 {
     public class Depen
     {

@@ -1,4 +1,4 @@
-﻿namespace Application.Persistence
+﻿namespace GestionHoteles.Persistence
 {
     public class Persistence
     {

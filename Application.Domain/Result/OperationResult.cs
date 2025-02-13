@@ -1,6 +1,4 @@
-﻿
-
-namespace Application.Domain.Base
+﻿namespace GestionHoteles.Domain.Result
 {
     public class OperationResult
     {
