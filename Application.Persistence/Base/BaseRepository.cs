@@ -29,9 +29,17 @@ namespace GestionHoteles.Persistence.Base
             return await Entity.ToListAsync();
         }
 
-        public virtual async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter)
+        public virtual async Task<OperationResult> GetAllAsync(Expression<Func<TEntity, bool>> filter)
         {
-            return await Entity.Where(filter).ToListAsync();
+            try{
+                var data = Entity.Where(filter).ToListAsync();
+                OperationResult.Data = data;
+            }catch(Exception)
+            {
+                OperationResult.Success = false;
+                OperationResult.Message = "error al optener los datos";
+            }
+            return OperationResult;
         }
 
         public virtual async Task<TEntity> GetEntityAsync(TType id)

@@ -8,6 +8,6 @@ namespace GestionHoteles.Persistence.Interfaces
 {
     public interface IEstadoHabitacionRepository : IBaseRepository<EstadoHabitacion, int>
     {
-        Task<OperationResult> ActualizarEstadoHabitacion(int idHabitacion, int nuevoEstado);
+        //Task<OperationResult> ActualizarEstadoHabitacion(int idHabitacion, int nuevoEstado);
     }
 }

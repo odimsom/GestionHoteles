@@ -1,6 +1,4 @@
-﻿
-
-using GestionHoteles.Domain.Base;
+﻿using GestionHoteles.Domain.Base;
 using GestionHoteles.Domain.Entities;
 using GestionHoteles.Domain.Result;
 using GestionHoteles.Persistence.Base;
@@ -10,15 +8,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Linq.Expressions;
 
-namespace GestionHoteles.Persistence.Repoositories
+namespace Application.Persistence.Repoositories
 {
-    public class CategoriaRepository : BaseRepository<Categoria, int>, ICategoriaRepository
+    public class EstadoHabitacionRepository : BaseRepository<EstadoHabitacion, int>, IEstadoHabitacionRepository
     {
         private readonly GestionHotelesContext _contex;
-        private readonly ILogger<CategoriaRepository> _loguer;
+        private readonly ILogger<EstadoHabitacionRepository> _loguer;
         private readonly IConfiguration _configuration;
 
-        public CategoriaRepository(GestionHotelesContext context, ILogger<CategoriaRepository> loguer,IConfiguration configuracion) : base(context)
+        public EstadoHabitacionRepository(GestionHotelesContext context, ILogger<EstadoHabitacionRepository> loguer, IConfiguration configuracion) : base(context)
         {
             this._contex = context;
             this._loguer = loguer;
@@ -27,15 +25,16 @@ namespace GestionHoteles.Persistence.Repoositories
 
         public IConfiguration Configuracion { get; }
 
-        public override Task<OperationResult> SaveEntityAsync(Categoria entity) 
+
+        public override Task<OperationResult> SaveEntityAsync(EstadoHabitacion entity)
         {
-            //Validar//
+            //agregar las validaciones//
 
 
             return base.SaveEntityAsync(entity);
         }
 
-        public override Task<OperationResult> UpdateEntity(Categoria entity) 
+        public override Task<OperationResult> UpdateEntity(EstadoHabitacion entity)
         {
             return base.UpdateEntity(entity);
         }

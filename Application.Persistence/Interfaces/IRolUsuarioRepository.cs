@@ -7,6 +7,6 @@ namespace GestionHoteles.Persistence.Interfaces
 {
     public interface IRolUsuarioRepository : IBaseRepository<RolUsuario, int>
     {
-        Task<OperationResult> AsignarPermisos(int idRol, List<int> permisos);
+        //Task<OperationResult> AsignarPermisos(int idRol, List<int> permisos);
     }
 }

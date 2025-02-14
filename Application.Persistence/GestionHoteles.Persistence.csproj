@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application.Domain\GestionHoteles.Domain.csproj" />
+    <ProjectReference Include="..\GestionHotel.Models\GestionHoteles.Model.csproj" />
   </ItemGroup>
 
 </Project>

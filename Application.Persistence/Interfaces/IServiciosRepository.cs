@@ -8,6 +8,7 @@ namespace GestionHoteles.Persistence.Interfaces
 {
     public interface IServiciosRepository : IBaseRepository<Servicios, int>
     {
-        Task<OperationResult> AsignarServicioAHabitacion(int idHabitacion, int idServicio);
+        //Task<OperationResult> AsignarServicioAHabitacion(int idHabitacion, int idServicio);
+        Task<OperationResult> GetServiciosByCategoriaId(int CategoriaId);
     }
 }

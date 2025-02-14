@@ -15,6 +15,6 @@ namespace GestionHoteles.Domain.Repository
         Task<OperationResult> SaveEntityAsync(TEntity entity);
         Task<List<TEntity>> GetAllAsync();
         Task<bool> ExitsAsync(Expression<Func<TEntity, bool>> filter);
-        Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> filter);
+        Task<OperationResult> GetAllAsync(Expression<Func<TEntity, bool>> filter);
     }
 }

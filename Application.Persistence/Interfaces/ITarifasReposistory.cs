@@ -7,6 +7,6 @@ namespace GestionHoteles.Persistence.Interfaces
 {
     public interface ITarifasReposistory : IBaseRepository<Tarifas, int>
     {
-        Task<OperationResult> AsignarTarifaAHabitacion(int idHabitacion, int idTarifa);
+        //Task<OperationResult> AsignarTarifaAHabitacion(int idHabitacion, int idTarifa);
     }
 }

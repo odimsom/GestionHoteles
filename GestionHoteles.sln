@@ -39,7 +39,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exceptions", "Exceptions", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionHoteles.Web", "GestionHoteles.Web\GestionHoteles.Web.csproj", "{4508FFD7-CCF5-4C56-BEA1-2D77E236B346}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionHotel.Model", "GestionHotel.Model\GestionHotel.Model.csproj", "{D3EB3EE1-F52A-4334-B79C-5F4444CEA4E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionHotel.Excepcion", "GestionHotel.Model\GestionHotel.Excepcion.csproj", "{D3EB3EE1-F52A-4334-B79C-5F4444CEA4E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionHoteles.Model", "GestionHotel.Models\GestionHoteles.Model.csproj", "{0070D137-E20D-4946-9E8E-2B2397735DA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,10 @@ Global
 		{D3EB3EE1-F52A-4334-B79C-5F4444CEA4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3EB3EE1-F52A-4334-B79C-5F4444CEA4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3EB3EE1-F52A-4334-B79C-5F4444CEA4E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0070D137-E20D-4946-9E8E-2B2397735DA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0070D137-E20D-4946-9E8E-2B2397735DA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0070D137-E20D-4946-9E8E-2B2397735DA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0070D137-E20D-4946-9E8E-2B2397735DA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,5 +114,6 @@ Global
 		{C10EEA63-95DA-4015-9450-11D5E324559F} = {B46FEE90-A96C-4551-B390-856AF99E4435}
 		{4508FFD7-CCF5-4C56-BEA1-2D77E236B346} = {170CE357-83FE-41A9-8836-874479B65281}
 		{D3EB3EE1-F52A-4334-B79C-5F4444CEA4E2} = {B46FEE90-A96C-4551-B390-856AF99E4435}
+		{0070D137-E20D-4946-9E8E-2B2397735DA0} = {B46FEE90-A96C-4551-B390-856AF99E4435}
 	EndGlobalSection
 EndGlobal
