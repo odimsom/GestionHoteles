@@ -26,17 +26,33 @@ namespace Application.Persistence.Repoositories
 
         public IConfiguration Configuracion { get; }
 
-        public override Task<OperationResult> SaveEntityAsync(Habitacion entity)
+        public override async Task<OperationResult> SaveEntityAsync(Habitacion entity)
         {
-            //agregar las validaciones//
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
 
+            if (string.IsNullOrWhiteSpace(entity.Numero))
+                return new OperationResult { Success = false, Message = "El número de habitación es obligatorio." };
 
-            return base.SaveEntityAsync(entity);
+            if (entity.Precio <= 0)
+                return new OperationResult { Success = false, Message = "El precio debe ser mayor a 0." };
+
+            return await base.SaveEntityAsync(entity);
         }
 
-        public override Task<OperationResult> UpdateEntity(Habitacion entity)
+        public override async Task<OperationResult> UpdateEntity(Habitacion entity)
         {
-            return base.UpdateEntity(entity);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
+
+            if (string.IsNullOrWhiteSpace(entity.Numero))
+                return new OperationResult { Success = false, Message = "El número de habitación es obligatorio." };
+
+            if (entity.Precio <= 0)
+                return new OperationResult { Success = false, Message = "El precio debe ser mayor a 0." };
+
+            return await base.UpdateEntity(entity);
         }
+
     }
 }

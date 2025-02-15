@@ -1,43 +1,53 @@
-﻿
-
-using GestionHoteles.Domain.Base;
-using GestionHoteles.Domain.Entities;
+﻿using GestionHoteles.Domain.Entities;
 using GestionHoteles.Domain.Result;
 using GestionHoteles.Persistence.Base;
 using GestionHoteles.Persistence.Context;
 using GestionHoteles.Persistence.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System.Linq.Expressions;
 
-namespace GestionHoteles.Persistence.Repoositories
+namespace GestionHoteles.Persistence.Repositories
 {
     public class CategoriaRepository : BaseRepository<Categoria, int>, ICategoriaRepository
     {
-        private readonly GestionHotelesContext _contex;
-        private readonly ILogger<CategoriaRepository> _loguer;
+        private readonly GestionHotelesContext _context;
+        private readonly ILogger<CategoriaRepository> _logger;
         private readonly IConfiguration _configuration;
 
-        public CategoriaRepository(GestionHotelesContext context, ILogger<CategoriaRepository> loguer,IConfiguration configuracion) : base(context)
+        public CategoriaRepository(GestionHotelesContext context, ILogger<CategoriaRepository> logger, IConfiguration configuration)
+            : base(context)
         {
-            this._contex = context;
-            this._loguer = loguer;
-            this._configuration = configuracion;
+            _context = context ?? throw new ArgumentNullException(nameof(context), "El contexto no puede ser nulo.");
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger), "El logger no puede ser nulo.");
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration), "La configuración no puede ser nula.");
         }
 
-        public IConfiguration Configuracion { get; }
-
-        public override Task<OperationResult> SaveEntityAsync(Categoria entity) 
+        public override async Task<OperationResult> SaveEntityAsync(Categoria entity)
         {
-            //Validar//
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
 
+            if (string.IsNullOrWhiteSpace(entity.Descripcion))
+                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
 
-            return base.SaveEntityAsync(entity);
+            if (entity.IdServicio <= 0)
+                return new OperationResult { Success = false, Message = "El Id del servicio debe ser positivo." };
+
+            return await base.SaveEntityAsync(entity);
         }
 
-        public override Task<OperationResult> UpdateEntity(Categoria entity) 
+        public override async Task<OperationResult> UpdateEntity(Categoria entity)
         {
-            return base.UpdateEntity(entity);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
+
+            if (string.IsNullOrWhiteSpace(entity.Descripcion))
+                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
+
+            if (entity.IdServicio <= 0)
+                return new OperationResult { Success = false, Message = "El Id del servicio debe ser positivo." };
+
+            return await base.UpdateEntity(entity);
         }
     }
 }

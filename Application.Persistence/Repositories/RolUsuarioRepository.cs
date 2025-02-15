@@ -25,17 +25,28 @@ namespace Application.Persistence.Repoositories
 
         public IConfiguration Configuracion { get; }
 
-        public override Task<OperationResult> SaveEntityAsync(RolUsuario entity)
+        public override async Task<OperationResult> SaveEntityAsync(RolUsuario entity)
         {
-            //agregar las validaciones//
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
 
+            if (string.IsNullOrWhiteSpace(entity.Descripcion))
+                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
 
-            return base.SaveEntityAsync(entity);
+            return await base.SaveEntityAsync(entity);
         }
 
-        public override Task<OperationResult> UpdateEntity(RolUsuario entity)
+
+        public override async Task<OperationResult> UpdateEntity(RolUsuario entity)
         {
-            return base.UpdateEntity(entity);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
+
+            if (string.IsNullOrWhiteSpace(entity.Descripcion))
+                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
+
+            return await base.UpdateEntity(entity);
         }
+
     }
 }

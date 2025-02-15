@@ -1,41 +1,69 @@
-﻿using GestionHoteles.Domain.Base;
-using GestionHoteles.Domain.Entities;
+﻿using GestionHoteles.Domain.Entities;
 using GestionHoteles.Domain.Result;
 using GestionHoteles.Persistence.Base;
 using GestionHoteles.Persistence.Context;
 using GestionHoteles.Persistence.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System.Linq.Expressions;
+using System.ComponentModel.DataAnnotations;
 
-namespace GestionHoteles.Persistence.Repoositories
+namespace GestionHoteles.Persistence.Repositories
 {
-    public  class ClienteRepository : BaseRepository<Cliente, int>, IClienteRepository
+    public class ClienteRepository : BaseRepository<Cliente, int>, IClienteRepository
     {
-        private readonly GestionHotelesContext _contex;
-        private readonly ILogger<ClienteRepository> _loguer;
+        private readonly GestionHotelesContext _context;
+        private readonly ILogger<ClienteRepository> _logger;
         private readonly IConfiguration _configuration;
 
-        public ClienteRepository(GestionHotelesContext context, ILogger<ClienteRepository> loguer, IConfiguration configuracion) : base(context)
+        public ClienteRepository(GestionHotelesContext context, ILogger<ClienteRepository> logger, IConfiguration configuration)
+            : base(context)
         {
-            this._contex = context;
-            this._loguer = loguer;
-            this._configuration = configuracion;
+            _context = context ?? throw new ArgumentNullException(nameof(context), "El contexto no puede ser nulo.");
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger), "El logger no puede ser nulo.");
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration), "La configuración no puede ser nula.");
         }
 
-        public IConfiguration Configuracion { get; }
-
-        public override Task<OperationResult> SaveEntityAsync(Cliente entity)
+        public override async Task<OperationResult> SaveEntityAsync(Cliente entity)
         {
-            //validaciones//
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
 
+            var validationErrors = ValidateCliente(entity);
+            if (validationErrors.Count > 0)
+                return new OperationResult { Success = false, Message = string.Join(" | ", validationErrors) };
 
-            return base.SaveEntityAsync(entity);
+            return await base.SaveEntityAsync(entity);
         }
 
-        public override Task<OperationResult> UpdateEntity(Cliente entity)
+        public override async Task<OperationResult> UpdateEntity(Cliente entity)
         {
-            return base.UpdateEntity(entity);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
+
+            var validationErrors = ValidateCliente(entity);
+            if (validationErrors.Count > 0)
+                return new OperationResult { Success = false, Message = string.Join(" | ", validationErrors) };
+
+            return await base.UpdateEntity(entity);
+        }
+
+        private List<string> ValidateCliente(Cliente entity)
+        {
+            var errors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(entity.TipoDocumento) || entity.TipoDocumento.Length > 20)
+                errors.Add("El tipo de documento es obligatorio y no debe exceder los 20 caracteres.");
+
+            if (string.IsNullOrWhiteSpace(entity.Documento) || entity.Documento.Length > 15)
+                errors.Add("El documento es obligatorio y no debe exceder los 15 caracteres.");
+
+            if (string.IsNullOrWhiteSpace(entity.NombreCompleto) || entity.NombreCompleto.Length > 100)
+                errors.Add("El nombre completo es obligatorio y no debe exceder los 100 caracteres.");
+
+            if (string.IsNullOrWhiteSpace(entity.Correo) || !new EmailAddressAttribute().IsValid(entity.Correo))
+                errors.Add("El correo es obligatorio y debe tener un formato válido.");
+
+            return errors;
         }
     }
 }

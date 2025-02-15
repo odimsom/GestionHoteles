@@ -24,17 +24,40 @@ namespace Application.Persistence.Repoositories
 
         public IConfiguration Configuracion { get; }
 
-        public override Task<OperationResult> SaveEntityAsync(Recepcion entity)
+        public override async Task<OperationResult> SaveEntityAsync(Recepcion entity)
         {
-            //validaciones//
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
 
+            if (entity.IdCliente <= 0)
+                return new OperationResult { Success = false, Message = "El ID del cliente es obligatorio." };
 
-            return base.SaveEntityAsync(entity);
+            if (entity.IdHabitacion <= 0)
+                return new OperationResult { Success = false, Message = "El ID de la habitación es obligatorio." };
+
+            if (entity.FechaEntrada >= entity.FechaSalida)
+                return new OperationResult { Success = false, Message = "La fecha de entrada debe ser menor que la de salida." };
+
+            return await base.SaveEntityAsync(entity);
         }
 
-        public override Task<OperationResult> UpdateEntity(Recepcion entity)
+
+        public override async Task<OperationResult> UpdateEntity(Recepcion entity)
         {
-            return base.UpdateEntity(entity);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
+
+            if (entity.IdCliente <= 0)
+                return new OperationResult { Success = false, Message = "El ID del cliente es obligatorio." };
+
+            if (entity.IdHabitacion <= 0)
+                return new OperationResult { Success = false, Message = "El ID de la habitación es obligatorio." };
+
+            if (entity.FechaEntrada >= entity.FechaSalida)
+                return new OperationResult { Success = false, Message = "La fecha de entrada debe ser menor que la de salida." };
+
+            return await base.UpdateEntity(entity);
         }
+
     }
 }

@@ -26,41 +26,86 @@ namespace Application.Persistence.Repoositories
 
         public IConfiguration Configuracion { get; }
 
-        public async Task<OperationResult> GetServiciosByCategoriaId(int CategoriaId)
+        public async Task<OperationResult> GetServiciosByCategoriaId(int categoriaId)
         {
-            OperationResult result = new OperationResult();
+            var result = new OperationResult();
+
+            if (categoriaId <= 0)
+            {
+                return new OperationResult
+                {
+                    Success = false,
+                    Message = "El ID de la categoría debe ser un valor positivo."
+                };
+            }
             try
             {
-                var querys = await (from Servicios in _context.Servicios
-                                    join Categoria in _context.Categorias on Servicios.Id equals Categoria.IdServicio
-                                    where Servicios.Id == CategoriaId
+                var querys = await (from servicio in _context.Servicios
+                                    join categoria in _context.Categorias on servicio.Id equals categoria.IdServicio
+                                    where categoria.Id == categoriaId
                                     select new ServiciosCategoriaModel()
                                     {
-                                        IdServicio = Servicios.Id,
-                                        FechaCreacion = Servicios.FechaCreacion,
-                                        Nombre = Servicios.Nombre,
-                                        Descripcion = Servicios.Descripcion,
-                                        IdCategoria = Categoria.Id
+                                        IdServicio = servicio.Id,
+                                        FechaCreacion = servicio.FechaCreacion,
+                                        Nombre = servicio.Nombre,
+                                        Descripcion = servicio.Descripcion,
+                                        IdCategoria = categoria.Id
                                     }).ToListAsync();
-                result.Data = querys;
 
+                if (querys == null || querys.Count == 0)
+                {
+                    return new OperationResult
+                    {
+                        Success = false,
+                        Message = "No se encontraron servicios para la categoría especificada."
+                    };
+                }
+
+                result.Success = true;
+                result.Data = querys;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                result.Success = false;
+                result.Message = "Error al acceder a la base de datos.";
+                _loguer.LogError("Error en GetServiciosByCategoriaId (DB): {0}", dbEx.ToString());
             }
             catch (Exception ex)
             {
-                result.Message = this._configuracion["ErrorServiciosRepository:GetServiciosCategoriaModel"];
                 result.Success = false;
-                this._loguer.LogError(result.Message, ex.ToString());
+                result.Message = _configuracion["ErrorServiciosRepository:GetServiciosCategoriaModel"] ?? "Ocurrió un error inesperado.";
+                _loguer.LogError("Error en GetServiciosByCategoriaId: {0}", ex.ToString());
             }
+
             return result;
         }
 
-        public override Task<OperationResult> SaveEntityAsync(Servicios entity)
+
+        public override async Task<OperationResult> SaveEntityAsync(Servicios entity)
         {
-            return base.SaveEntityAsync(entity);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
+
+            if (string.IsNullOrWhiteSpace(entity.Nombre))
+                return new OperationResult { Success = false, Message = "El nombre del servicio es obligatorio." };
+
+            if (string.IsNullOrWhiteSpace(entity.Descripcion))
+                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
+
+            return await base.SaveEntityAsync(entity);
         }
-        public override Task<OperationResult> UpdateEntity(Servicios entity)
+        public override async Task<OperationResult> UpdateEntity(Servicios entity)
         {
-            return base.UpdateEntity(entity);
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
+
+            if (string.IsNullOrWhiteSpace(entity.Nombre))
+                return new OperationResult { Success = false, Message = "El nombre del servicio es obligatorio." };
+
+            if (string.IsNullOrWhiteSpace(entity.Descripcion))
+                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
+
+            return await base.UpdateEntity(entity);
         }
     }
 }
