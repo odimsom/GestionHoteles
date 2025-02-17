@@ -79,33 +79,5 @@ namespace Application.Persistence.Repoositories
 
             return result;
         }
-
-
-        public override async Task<OperationResult> SaveEntityAsync(Servicios entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
-
-            if (string.IsNullOrWhiteSpace(entity.Nombre))
-                return new OperationResult { Success = false, Message = "El nombre del servicio es obligatorio." };
-
-            if (string.IsNullOrWhiteSpace(entity.Descripcion))
-                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
-
-            return await base.SaveEntityAsync(entity);
-        }
-        public override async Task<OperationResult> UpdateEntity(Servicios entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
-
-            if (string.IsNullOrWhiteSpace(entity.Nombre))
-                return new OperationResult { Success = false, Message = "El nombre del servicio es obligatorio." };
-
-            if (string.IsNullOrWhiteSpace(entity.Descripcion))
-                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
-
-            return await base.UpdateEntity(entity);
-        }
     }
 }

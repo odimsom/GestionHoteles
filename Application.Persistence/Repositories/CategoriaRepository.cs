@@ -21,33 +21,5 @@ namespace GestionHoteles.Persistence.Repositories
             _logger = logger ?? throw new ArgumentNullException(nameof(logger), "El logger no puede ser nulo.");
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration), "La configuración no puede ser nula.");
         }
-
-        public override async Task<OperationResult> SaveEntityAsync(Categoria entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
-
-            if (string.IsNullOrWhiteSpace(entity.Descripcion))
-                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
-
-            if (entity.IdServicio <= 0)
-                return new OperationResult { Success = false, Message = "El Id del servicio debe ser positivo." };
-
-            return await base.SaveEntityAsync(entity);
-        }
-
-        public override async Task<OperationResult> UpdateEntity(Categoria entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
-
-            if (string.IsNullOrWhiteSpace(entity.Descripcion))
-                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
-
-            if (entity.IdServicio <= 0)
-                return new OperationResult { Success = false, Message = "El Id del servicio debe ser positivo." };
-
-            return await base.UpdateEntity(entity);
-        }
     }
 }

@@ -22,31 +22,5 @@ namespace Application.Persistence.Repoositories
             this._loguer = loguer;
             this._configuration = configuracion;
         }
-
-        public IConfiguration Configuracion { get; }
-
-        public override async Task<OperationResult> SaveEntityAsync(Piso entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
-
-            if (string.IsNullOrWhiteSpace(entity.Descripcion))
-                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
-
-            return await base.SaveEntityAsync(entity);
-        }
-
-
-        public override async Task<OperationResult> UpdateEntity(Piso entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity), "La entidad no puede ser nula.");
-
-            if (string.IsNullOrWhiteSpace(entity.Descripcion))
-                return new OperationResult { Success = false, Message = "La descripción es obligatoria." };
-
-            return await base.UpdateEntity(entity);
-        }
-
     }
 }
